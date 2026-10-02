@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZHU TING / PORTFOLIO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@600;900&display=swap" rel="stylesheet">
+<style>
+  /* ---------- design tokens (ui-ux-pro-max: spacious density scale) ---------- */
+  :root{
+    --cream:#f6f1e6;
+    --cream-2:#fbf8f0;
+    --card:#fffdf7;
+    --ink:#231d12;
+    --ink-soft:#6e6250;
+    --line:#e3d9c4;
+    --accent:#d9a13b;
+    --accent-deep:#a86f22;
+    --brick:#c25b2e;
+    --pink:#f2a7c3;
+    --radius:22px;
+    --space-1:8px; --space-2:16px; --space-3:24px;
+    --space-4:32px; --space-5:48px; --space-6:64px; --space-7:96px;
+    --serif:"Playfair Display","Noto Serif SC","Songti SC","SimSun",serif;
+    --sans:"Inter","PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+    --ease-back:cubic-bezier(.34,1.56,.64,1);
+    --ease-out:cubic-bezier(.22,.61,.36,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--cream);color:var(--ink);
+    font-family:var(--sans);font-size:16px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  ::selection{background:var(--accent);color:#fff}
+  :focus-visible{outline:3px solid var(--accent-deep);outline-offset:3px;border-radius:4px}
+  img{max-width:100%}
+
+  /* ---------- scroll progress (storytelling pattern) ---------- */
+  .progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent-deep);z-index:60}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:20px clamp(22px,4vw,56px);
+    transition:background .35s,box-shadow .35s,padding .35s;
+  }
+  .topbar.scrolled{
+    background:rgba(251,248,240,.9);backdrop-filter:blur(12px);
+    box-shadow:0 1px 0 var(--line);padding:12px clamp(22px,4vw,56px);
+  }
+  .brand,.topnote{
+    font-size:11px;letter-spacing:.24em;font-weight:600;color:var(--ink-soft);
+    text-transform:uppercase;white-space:nowrap;
+  }
+  .nav{display:flex;gap:clamp(18px,2.6vw,36px)}
+  .nav a{
+    font-size:13px;letter-spacing:.12em;color:var(--ink);text-decoration:none;
+    position:relative;padding:6px 2px;min-height:44px;display:inline-flex;align-items:center;
+  }
+  .nav a::after{
+    content:"";position:absolute;left:0;bottom:4px;width:0;height:2px;
+    background:var(--accent);transition:width .25s var(--ease-out);
+  }
+  .nav a:hover::after{width:100%}
+
+  /* ---------- hero : asymmetric editorial ---------- */
+  .hero{
+    padding:calc(var(--space-7) + 40px) clamp(22px,4vw,56px) var(--space-6);
+    display:grid;grid-template-columns:repeat(12,1fr);gap:var(--space-4);
+    align-items:end;
+  }
+  .hero-text{grid-column:1/8;padding-bottom:var(--space-5)}
+  .hero-kicker{
+    font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent-deep);
+    font-weight:600;margin-bottom:var(--space-3);display:flex;align-items:center;gap:14px;
+  }
+  .hero-kicker::before{content:"";width:44px;height:1px;background:var(--accent-deep)}
+  .hero-title{
+    font-family:var(--serif);font-weight:900;
+    font-size:clamp(56px,9.5vw,140px);line-height:.98;letter-spacing:-.01em;
+  }
+  .hero-title .cn{display:block;font-size:clamp(30px,4.2vw,58px);font-weight:900;margin-top:var(--space-2);letter-spacing:.06em}
+  .hero-title em{font-style:italic;color:var(--accent-deep)}
+  .hero-sub{
+    max-width:420px;font-size:15px;line-height:2;color:var(--ink-soft);margin-top:var(--space-4);
+    font-weight:300;
+  }
+  .hero-tags{display:flex;gap:12px;margin-top:var(--space-4);flex-wrap:wrap}
+  .hero-tags span{
+    font-size:12px;letter-spacing:.1em;padding:9px 18px;border-radius:999px;
+    border:1px solid var(--ink);color:var(--ink);background:transparent;
+    transition:background .25s,color .25s;
+  }
+  .hero-tags span:hover{background:var(--ink);color:var(--cream-2)}
+  .hero-media{grid-column:8/13;position:relative}
+  .hero-frame{
+    border-radius:999px 999px var(--radius) var(--radius);
+    overflow:hidden;background:#efe6d2;aspect-ratio:16/11;
+    box-shadow:0 40px 80px -40px rgba(96,74,40,.45);
+  }
+  .hero-frame video{width:100%;height:100%;object-fit:cover;display:block}
+  .hero-credit{
+    position:absolute;top:18px;right:22px;font-size:10px;letter-spacing:.2em;
+    color:var(--ink-soft);text-transform:uppercase;background:rgba(251,248,240,.85);
+    padding:6px 12px;border-radius:999px;
+  }
+  .hero-orbit{
+    position:absolute;left:-34px;bottom:-22px;width:110px;height:110px;
+    animation:spin 18s linear infinite;pointer-events:none;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* meta strip under hero */
+  .meta{
+    margin:0 clamp(22px,4vw,56px);padding:var(--space-4) 0;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-3);
+  }
+  .meta div span{display:block;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+  .meta div strong{font-size:14px;font-weight:600;letter-spacing:.02em}
+
+  /* ---------- marquee ---------- */
+  .marquee{margin:var(--space-6) 0 0;overflow:hidden;white-space:nowrap;padding:18px 0}
+  .marquee-track{display:inline-block;animation:slide 30s linear infinite}
+  .marquee span{
+    font-family:var(--serif);font-style:italic;font-size:20px;color:var(--ink-soft);
+    margin-right:56px;
+  }
+  .marquee b{color:var(--accent);margin-right:56px;font-weight:400}
+  @keyframes slide{to{transform:translateX(-50%)}}
+
+  /* ---------- generic section rhythm ---------- */
+  section{padding:var(--space-7) clamp(22px,4vw,56px) 0}
+  .sec-head{
+    display:grid;grid-template-columns:1fr auto;align-items:end;gap:var(--space-3);
+    border-bottom:1px solid var(--ink);padding-bottom:var(--space-3);margin-bottom:var(--space-6);
+  }
+  .sec-head h2{
+    font-family:var(--serif);font-weight:900;
+    font-size:clamp(34px,5vw,64px);line-height:1.05;letter-spacing:-.01em;
+  }
+  .sec-head .en{
+    font-size:11px;letter-spacing:.28em;color:var(--ink-soft);text-transform:uppercase;
+    padding-bottom:10px;text-align:right;
+  }
+
+  /* ---------- featured interactive work ---------- */
+  .featured{
+    display:grid;grid-template-columns:repeat(12,1fr);gap:var(--space-4);align-items:center;
+  }
+  .featured-copy{grid-column:1/6}
+  .featured-copy .num{font-size:12px;letter-spacing:.3em;color:var(--brick);font-weight:600}
+  .featured-copy h3{
+    font-family:var(--serif);font-weight:900;font-size:clamp(30px,3.6vw,48px);
+    margin:var(--space-2) 0 var(--space-3);line-height:1.15;
+  }
+  .featured-copy p{font-size:14px;line-height:2;color:var(--ink-soft);margin-bottom:var(--space-3);font-weight:300}
+  .cta{
+    display:inline-flex;align-items:center;gap:12px;cursor:pointer;
+    font-size:13px;letter-spacing:.14em;font-weight:600;text-decoration:none;
+    color:var(--cream-2);background:var(--ink);padding:16px 30px;border-radius:999px;
+    transition:background .25s,transform .25s var(--ease-back),gap .25s;
+  }
+  .cta:hover{background:var(--brick);transform:translateY(-3px);gap:18px}
+  .featured-media{
+    grid-column:6/13;position:relative;
+    display:grid;grid-template-columns:1.4fr 1fr;gap:var(--space-3);align-items:start;
+  }
+  .shot{
+    border-radius:var(--radius);overflow:hidden;background:var(--card);
+    border:1px solid var(--line);box-shadow:0 24px 48px -28px rgba(96,74,40,.35);
+    cursor:zoom-in;transition:transform .45s var(--ease-out),box-shadow .45s;
+  }
+  .shot:hover{transform:translateY(-6px) rotate(-.5deg);box-shadow:0 36px 60px -28px rgba(96,74,40,.45)}
+  .shot img{display:block;width:100%}
+  .shot:nth-child(2){margin-top:var(--space-5)}
+  .glass-pill{
+    position:absolute;left:var(--space-3);bottom:var(--space-3);
+    font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    background:rgba(255,253,247,.72);backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,.7);border-radius:999px;padding:8px 18px;color:var(--ink);
+  }
+
+  /* ---------- about ---------- */
+  .about-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--space-4);align-items:center}
+  .about-img{
+    grid-column:1/7;border-radius:var(--radius);overflow:hidden;background:var(--card);
+    border:1px solid var(--line);box-shadow:0 24px 48px -28px rgba(96,74,40,.3);
+  }
+  .about-img img{display:block;width:100%;transition:transform .8s var(--ease-out)}
+  .about-img:hover img{transform:scale(1.03)}
+  .about-copy{grid-column:8/13}
+  .about-copy .num{font-size:12px;letter-spacing:.3em;color:var(--accent-deep);font-weight:600}
+  .about-copy h3{
+    font-family:var(--serif);font-weight:900;font-size:clamp(28px,3.4vw,44px);
+    margin:var(--space-2) 0 var(--space-3);
+  }
+  .about-copy p{font-size:14px;line-height:2.05;color:var(--ink-soft);margin-bottom:var(--space-2);font-weight:300}
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:var(--space-3)}
+  .chips span{
+    font-size:12px;letter-spacing:.06em;padding:9px 16px;border-radius:999px;
+    background:var(--card);border:1px solid var(--line);
+    transition:background .25s,color .25s,border-color .25s;
+  }
+  .chips span:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+
+  /* ---------- work chapters : broken grid rhythm ---------- */
+  .work-head{
+    display:grid;grid-template-columns:auto 1fr minmax(220px,340px);gap:var(--space-4);
+    align-items:end;border-bottom:1px solid var(--ink);
+    padding-bottom:var(--space-4);margin-bottom:var(--space-6);
+  }
+  .work-num{
+    font-family:var(--serif);font-weight:900;line-height:.85;
+    font-size:clamp(64px,8vw,120px);color:transparent;
+    -webkit-text-stroke:1.5px var(--accent-deep);
+  }
+  .work-title h3{font-family:var(--serif);font-weight:900;font-size:clamp(28px,3.6vw,50px);line-height:1.1}
+  .work-title .en{font-size:11px;letter-spacing:.26em;color:var(--ink-soft);text-transform:uppercase;margin-top:10px}
+  .work-desc{font-size:13px;line-height:1.95;color:var(--ink-soft);font-weight:300;padding-bottom:6px}
+
+  .bgrid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--space-3)}
+  .tile{
+    border-radius:var(--radius);overflow:hidden;background:var(--card);
+    border:1px solid var(--line);cursor:zoom-in;position:relative;
+    box-shadow:0 18px 36px -26px rgba(96,74,40,.3);
+    transition:transform .45s var(--ease-out),box-shadow .45s;
+  }
+  .tile:hover{transform:translateY(-8px);box-shadow:0 36px 56px -28px rgba(96,74,40,.42)}
+  .tile img{display:block;width:100%;transition:transform .9s var(--ease-out)}
+  .tile:hover img{transform:scale(1.045)}
+  .tile .cap{
+    position:absolute;left:14px;bottom:14px;
+    font-size:11px;letter-spacing:.12em;color:var(--ink);
+    background:rgba(251,248,240,.94);padding:7px 15px;border-radius:999px;
+    opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s;
+  }
+  .tile:hover .cap,.tile:focus-visible .cap{opacity:1;transform:translateY(0)}
+  .s4{grid-column:span 4}.s5{grid-column:span 5}.s6{grid-column:span 6}
+  .s7{grid-column:span 7}.s8{grid-column:span 8}.s12{grid-column:span 12}
+  @media (min-width:1000px){
+    .drop{margin-top:var(--space-6)}
+    .drop-sm{margin-top:var(--space-4)}
+  }
+
+  /* ---------- promo film ---------- */
+  .promo-wrap{
+    display:grid;grid-template-columns:repeat(12,1fr);gap:var(--space-4);align-items:center;
+  }
+  .promo-copy{grid-column:1/7}
+  .promo-copy .num{font-size:12px;letter-spacing:.3em;color:var(--brick);font-weight:600}
+  .promo-copy h3{
+    font-family:var(--serif);font-weight:900;font-size:clamp(28px,3.4vw,46px);
+    margin:var(--space-2) 0 var(--space-3);line-height:1.15;
+  }
+  .promo-copy p{font-size:14px;line-height:2;color:var(--ink-soft);margin-bottom:var(--space-3);font-weight:300}
+  .phone{
+    grid-column:8/12;justify-self:center;position:relative;
+    width:min(320px,72vw);aspect-ratio:9/19;border-radius:44px;
+    background:var(--ink);padding:12px;
+    box-shadow:0 44px 80px -36px rgba(96,74,40,.5);
+  }
+  .phone video{
+    width:100%;height:100%;object-fit:cover;border-radius:34px;display:block;
+    background:#f6f1e6;
+  }
+  .phone-notch{
+    position:absolute;top:22px;left:50%;transform:translateX(-50%);
+    width:88px;height:20px;border-radius:999px;background:var(--ink);z-index:2;
+  }
+  @media (max-width:1000px){
+    .promo-copy{grid-column:1/-1}
+    .phone{grid-column:1/-1;margin-top:var(--space-4)}
+  }
+
+  /* ---------- footer ---------- */
+  footer{
+    margin-top:var(--space-7);padding:var(--space-7) clamp(22px,4vw,56px) var(--space-4);
+    background:var(--ink);color:#f0e8d7;border-radius:40px 40px 0 0;
+  }
+  .foot-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--space-4)}
+  .foot-grid h4{
+    grid-column:1/8;font-family:var(--serif);font-weight:900;
+    font-size:clamp(36px,5vw,68px);line-height:1.08;
+  }
+  .foot-grid h4 em{font-style:italic;color:var(--accent)}
+  .foot-side{grid-column:9/13;align-self:end}
+  .foot-side p{font-size:13px;line-height:2;opacity:.72;font-weight:300;margin-bottom:var(--space-3)}
+  .foot-links a{
+    color:#f0e8d7;text-decoration:none;font-size:13px;letter-spacing:.08em;
+    display:block;padding:8px 0;border-bottom:1px solid rgba(240,232,215,.16);
+    transition:color .25s,padding-left .25s;
+  }
+  .foot-links a:hover{color:var(--accent);padding-left:10px}
+  .foot-meta{
+    margin-top:var(--space-6);padding-top:var(--space-3);
+    border-top:1px solid rgba(240,232,215,.16);
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    font-size:11px;letter-spacing:.18em;opacity:.55;text-transform:uppercase;
+  }
+
+  /* ---------- lightbox ---------- */
+  .lightbox{
+    position:fixed;inset:0;z-index:100;background:rgba(35,29,18,.9);
+    display:flex;align-items:center;justify-content:center;padding:4vh 4vw;
+    opacity:0;pointer-events:none;transition:opacity .3s;
+  }
+  .lightbox.on{opacity:1;pointer-events:auto}
+  .lightbox img{max-width:100%;max-height:100%;border-radius:14px;box-shadow:0 40px 80px rgba(0,0,0,.5)}
+  .lightbox .close{
+    position:absolute;top:26px;right:34px;color:#fff;font-size:13px;letter-spacing:.18em;
+    cursor:pointer;background:none;border:1px solid rgba(255,255,255,.45);
+    border-radius:999px;padding:12px 24px;min-height:44px;
+  }
+
+  /* ---------- reveal (stagger, back.out per skill motion preset) ---------- */
+  .reveal{opacity:0;transform:translateY(28px) scale(.985);transition:opacity .45s ease,transform .45s var(--ease-back)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:1000px){
+    .hero{grid-template-columns:1fr;align-items:start}
+    .hero-text{grid-column:1/-1;padding-bottom:0}
+    .hero-media{grid-column:1/-1;margin-top:var(--space-4)}
+    .meta{grid-template-columns:repeat(2,1fr)}
+    .featured-copy{grid-column:1/-1}
+    .featured-media{grid-column:1/-1;margin-top:var(--space-4)}
+    .about-img,.about-copy{grid-column:1/-1}
+    .about-copy{margin-top:var(--space-4)}
+    .work-head{grid-template-columns:auto 1fr}
+    .work-desc{grid-column:1/-1}
+    .s4,.s5{grid-column:span 6}
+    .s7,.s8{grid-column:span 12}
+    .foot-grid h4{grid-column:1/-1}
+    .foot-side{grid-column:1/-1;margin-top:var(--space-4)}
+  }
+  @media (max-width:640px){
+    .nav{display:none}
+    .meta{grid-template-columns:1fr 1fr}
+    .s4,.s5,.s6{grid-column:span 12}
+    .featured-media{grid-template-columns:1fr}
+    .shot:nth-child(2){margin-top:0}
+  }
+
+  /* ---------- reduced motion ---------- */
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .marquee-track,.hero-orbit{animation:none}
+    .reveal{opacity:1;transform:none;transition:none}
+    *{transition-duration:.01ms!important}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<header class="topbar" id="topbar">
+  <div class="brand">ZHU TING / PORTFOLIO</div>
+  <nav class="nav" aria-label="主导航">
+    <a href="#home">首页</a>
+    <a href="#featured">焦点作品</a>
+    <a href="#works">全部作品</a>
+    <a href="#about">关于</a>
+    <a href="#contact">联系</a>
+  </nav>
+  <div class="topnote">ZHU TING / SELECTED WORK</div>
+</header>
+
+<!-- hero -->
+<div class="hero" id="home">
+  <div class="hero-text">
+    <div class="hero-kicker">Portfolio · 2023 — 2024 · Vol.01</div>
+    <h1 class="hero-title">
+      Port<em>folio</em>
+      <span class="cn">朱婷的作品集</span>
+    </h1>
+    <p class="hero-sub">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris.
+    </p>
+    <div class="hero-tags">
+      <span>三维建模</span><span>UI 设计</span><span>平面设计</span><span>动效展示</span>
+    </div>
+  </div>
+  <div class="hero-media">
+    <div class="hero-frame">
+      <video autoplay muted loop playsinline poster="assets/hero-flower.png" aria-label="粉色小花角色动画">
+        <source src="assets/hero-flower.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="hero-credit">Nendo Style · AI Film</div>
+    <svg class="hero-orbit" viewBox="0 0 100 100" aria-hidden="true">
+      <defs><path id="cir" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs>
+      <text font-size="10.5" letter-spacing="2.5" fill="#a86f22">
+        <textPath href="#cir">SCROLL · 向下探索 · SCROLL · 向下探索 · </textPath>
+      </text>
+    </svg>
+  </div>
+</div>
+
+<!-- meta strip -->
+<div class="meta">
+  <div><span>Designer</span><strong>朱婷 / Zhu Ting</strong></div>
+  <div><span>Focus</span><strong>三维 · UI · 平面</strong></div>
+  <div><span>School</span><strong>大连东软信息学院</strong></div>
+  <div><span>Contact</span><strong>15998552601@163.com</strong></div>
+</div>
+
+<!-- marquee -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="marqueeTrack">
+    <span>3D Modeling</span><b>&#10035;</b><span>UI Design</span><b>&#10035;</b>
+    <span>Graphic Design</span><b>&#10035;</b><span>Motion</span><b>&#10035;</b>
+    <span>三维建模</span><b>&#10035;</b><span>交互设计</span><b>&#10035;</b><span>海报与字体</span><b>&#10035;</b>
+  </div>
+</div>
+
+<!-- featured interactive work -->
+<section id="featured">
+  <div class="sec-head reveal">
+    <h2>焦点作品</h2>
+    <div class="en">Featured · Interactive Web App</div>
+  </div>
+  <div class="featured">
+    <div class="featured-copy reveal">
+      <div class="num">&#9733; INTERACTIVE — 念念有词</div>
+      <h3>念念有词 · 网页互动版</h3>
+      <p>
+        从 App 界面走到浏览器里的完整互动 demo——原稿 UI 与玻璃拟态动效双版本。
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+      <p>
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+        dolore eu fugiat nulla pariatur.
+      </p>
+      <a class="cta" href="niannian-standalone.html" target="_blank" rel="noopener">
+        进入互动演示 <span aria-hidden="true">&#8594;</span>
+      </a>
+    </div>
+    <div class="featured-media">
+      <div class="shot reveal" data-full="assets/nn-glass-lesson.png" tabindex="0" role="button" aria-label="查看玻璃动效版课程页大图">
+        <img src="assets/nn-glass-lesson.png" alt="念念有词玻璃动效版课程页" loading="lazy">
+        <div class="glass-pill">Glass Motion Ver.</div>
+      </div>
+      <div class="shot reveal" data-full="assets/nn-preview.png" tabindex="0" role="button" aria-label="查看原稿 UI 版大图">
+        <img src="assets/nn-preview.png" alt="念念有词原稿 UI 预览" loading="lazy">
+        <div class="glass-pill">Original UI Ver.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- about -->
+<section id="about">
+  <div class="sec-head reveal">
+    <h2>关于我</h2>
+    <div class="en">About / Basic Information</div>
+  </div>
+  <div class="about-grid">
+    <div class="about-img reveal">
+      <img src="assets/work-02.jpg" alt="朱婷个人信息页" loading="lazy">
+    </div>
+    <div class="about-copy reveal">
+      <div class="num">00 — INFO</div>
+      <h3>你好，我是朱婷</h3>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+        commodo consequat.
+      </p>
+      <p>
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+      <div class="chips">
+        <span>Photoshop</span><span>Illustrator</span><span>Figma</span>
+        <span>Unity</span><span>MAYA</span><span>Procreate</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- works intro -->
+<section id="works" style="padding-bottom:0">
+  <div class="sec-head reveal">
+    <h2>精选作品</h2>
+    <div class="en">Selected Works / 2023 — 2024</div>
+  </div>
+</section>
+
+<!-- 01 3D -->
+<section class="work-sec" aria-label="三维建模">
+  <div class="work-head reveal">
+    <div class="work-num" aria-hidden="true">01</div>
+    <div class="work-title">
+      <h3>三维建模</h3>
+      <div class="en">3D Modeling · 煤油灯 / 场景渲染 / 三视图</div>
+    </div>
+    <p class="work-desc">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. PBR 材质与烘焙流程，
+      sed do eiusmod tempor incididunt ut labore.
+    </p>
+  </div>
+  <div class="bgrid">
+    <div class="tile s7 reveal" data-full="assets/work-05.jpg" tabindex="0" role="button" aria-label="查看煤油灯建模大图"><img src="assets/work-05.jpg" loading="lazy" alt="煤油灯三维道具建模"><span class="cap">煤油灯 · 道具建模</span></div>
+    <div class="tile s5 drop reveal" data-full="assets/work-04.jpg" tabindex="0" role="button" aria-label="查看章节页大图"><img src="assets/work-04.jpg" loading="lazy" alt="三维建模章节页"><span class="cap">章节页 / 3D</span></div>
+    <div class="tile s5 reveal" data-full="assets/work-06.jpg" tabindex="0" role="button" aria-label="查看场景渲染大图"><img src="assets/work-06.jpg" loading="lazy" alt="三维场景渲染"><span class="cap">场景渲染</span></div>
+    <div class="tile s7 drop-sm reveal" data-full="assets/work-07.jpg" tabindex="0" role="button" aria-label="查看模型三视图大图"><img src="assets/work-07.jpg" loading="lazy" alt="模型三视图"><span class="cap">模型三视图</span></div>
+  </div>
+</section>
+
+<!-- 02 UI -->
+<section class="work-sec" aria-label="UI 设计">
+  <div class="work-head reveal">
+    <div class="work-num" aria-hidden="true">02</div>
+    <div class="work-title">
+      <h3>UI 设计 · 念念有词</h3>
+      <div class="en">Interaction Design · App / Icon / 运营延展</div>
+    </div>
+    <p class="work-desc">
+      面向儿童的英语学习 App。Lorem ipsum dolor sit amet, consectetur
+      adipiscing elit, sed do eiusmod tempor.
+    </p>
+  </div>
+  <div class="bgrid">
+    <div class="tile s6 reveal" data-full="assets/work-10.jpg" tabindex="0" role="button" aria-label="查看项目概览大图"><img src="assets/work-10.jpg" loading="lazy" alt="念念有词项目概览"><span class="cap">项目概览</span></div>
+    <div class="tile s6 drop reveal" data-full="assets/work-11.jpg" tabindex="0" role="button" aria-label="查看视觉线索大图"><img src="assets/work-11.jpg" loading="lazy" alt="念念有词视觉线索"><span class="cap">视觉线索</span></div>
+    <div class="tile s4 reveal" data-full="assets/work-09.jpg" tabindex="0" role="button" aria-label="查看 Icon 设计大图"><img src="assets/work-09.jpg" loading="lazy" alt="Icon 设计"><span class="cap">Icon 设计</span></div>
+    <div class="tile s4 drop-sm reveal" data-full="assets/work-12.jpg" tabindex="0" role="button" aria-label="查看交互动效大图"><img src="assets/work-12.jpg" loading="lazy" alt="交互动效设计"><span class="cap">交互动效</span></div>
+    <div class="tile s4 reveal" data-full="assets/work-13.jpg" tabindex="0" role="button" aria-label="查看页面延展大图"><img src="assets/work-13.jpg" loading="lazy" alt="页面延展一"><span class="cap">页面延展 Ⅰ</span></div>
+    <div class="tile s12 reveal" data-full="assets/work-15.jpg" tabindex="0" role="button" aria-label="查看宣传网页延展大图"><img src="assets/work-15.jpg" loading="lazy" alt="App 延展到宣传网页"><span class="cap">App 延展到宣传网页</span></div>
+    <div class="tile s6 reveal" data-full="assets/work-14.jpg" tabindex="0" role="button" aria-label="查看页面延展二大图"><img src="assets/work-14.jpg" loading="lazy" alt="页面延展二"><span class="cap">页面延展 Ⅱ</span></div>
+    <div class="tile s6 drop-sm reveal" data-full="assets/work-08.jpg" tabindex="0" role="button" aria-label="查看 UI 章节页大图"><img src="assets/work-08.jpg" loading="lazy" alt="UI 设计章节页"><span class="cap">章节页 / UI</span></div>
+  </div>
+</section>
+
+<!-- 03 Graphic -->
+<section class="work-sec" aria-label="平面设计">
+  <div class="work-head reveal">
+    <div class="work-num" aria-hidden="true">03</div>
+    <div class="work-title">
+      <h3>平面设计</h3>
+      <div class="en">Graphic Design · 字体 / 非遗海报 / IP 形象</div>
+    </div>
+    <p class="work-desc">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. 传统题材的现代转译，
+      sed do eiusmod tempor incididunt.
+    </p>
+  </div>
+  <div class="bgrid">
+    <div class="tile s7 reveal" data-full="assets/work-17.jpg" tabindex="0" role="button" aria-label="查看字体设计一大图"><img src="assets/work-17.jpg" loading="lazy" alt="字体设计一"><span class="cap">字体设计 Ⅰ</span></div>
+    <div class="tile s5 drop reveal" data-full="assets/work-18.jpg" tabindex="0" role="button" aria-label="查看字体设计二大图"><img src="assets/work-18.jpg" loading="lazy" alt="字体设计二"><span class="cap">字体设计 Ⅱ</span></div>
+    <div class="tile s4 reveal" data-full="assets/work-16.jpg" tabindex="0" role="button" aria-label="查看平面章节页大图"><img src="assets/work-16.jpg" loading="lazy" alt="平面设计章节页"><span class="cap">章节页 / 平面</span></div>
+    <div class="tile s4 drop-sm reveal" data-full="assets/work-19.jpg" tabindex="0" role="button" aria-label="查看非遗海报一大图"><img src="assets/work-19.jpg" loading="lazy" alt="非遗系列海报一"><span class="cap">非遗系列海报 Ⅰ</span></div>
+    <div class="tile s4 reveal" data-full="assets/work-20.jpg" tabindex="0" role="button" aria-label="查看非遗海报二大图"><img src="assets/work-20.jpg" loading="lazy" alt="非遗系列海报二"><span class="cap">非遗系列海报 Ⅱ</span></div>
+    <div class="tile s12 reveal" data-full="assets/work-21.jpg" tabindex="0" role="button" aria-label="查看 IP 形象设计大图"><img src="assets/work-21.jpg" loading="lazy" alt="IP 形象设计"><span class="cap">IP 形象设计</span></div>
+  </div>
+</section>
+
+<!-- 04 Other -->
+<section class="work-sec" aria-label="其他展示">
+  <div class="work-head reveal">
+    <div class="work-num" aria-hidden="true">04</div>
+    <div class="work-title">
+      <h3>其他展示</h3>
+      <div class="en">Other Displays · 动效 / 探索</div>
+    </div>
+    <p class="work-desc">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore.
+    </p>
+  </div>
+  <div class="bgrid">
+    <div class="tile s4 reveal" data-full="assets/work-22.jpg" tabindex="0" role="button" aria-label="查看其他章节页大图"><img src="assets/work-22.jpg" loading="lazy" alt="其他展示章节页"><span class="cap">章节页 / 其他</span></div>
+    <div class="tile s4 drop-sm reveal" data-full="assets/work-23.jpg" tabindex="0" role="button" aria-label="查看动效展示一大图"><img src="assets/work-23.jpg" loading="lazy" alt="动效展示一"><span class="cap">动效展示 Ⅰ</span></div>
+    <div class="tile s4 reveal" data-full="assets/work-24.jpg" tabindex="0" role="button" aria-label="查看动效展示二大图"><img src="assets/work-24.jpg" loading="lazy" alt="动效展示二"><span class="cap">动效展示 Ⅱ</span></div>
+  </div>
+</section>
+
+<!-- promo film -->
+<section id="promo" aria-label="念念有词宣传片">
+  <div class="sec-head reveal">
+    <h2>宣传片</h2>
+    <div class="en">Promo Film · 22s · 9:16</div>
+  </div>
+  <div class="promo-wrap">
+    <div class="promo-copy reveal">
+      <div class="num">&#9654; FILM — 念念有词</div>
+      <h3>25 秒，看它怎么记单词</h3>
+      <p>
+        动漫包装 + 真实网页录屏：玻璃单词卡翻飞之间，是念念有词
+        可点击、可作答、可即时反馈的真实交互。Lorem ipsum dolor sit amet,
+        consectetur adipiscing elit.
+      </p>
+      <p>
+        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        Ut enim ad minim veniam.
+      </p>
+      <a class="cta" href="niannian-standalone.html" target="_blank" rel="noopener">
+        进入互动演示 <span aria-hidden="true">&#8594;</span>
+      </a>
+    </div>
+    <div class="phone reveal">
+      <div class="phone-notch" aria-hidden="true"></div>
+      <video autoplay muted loop playsinline preload="metadata" aria-label="念念有词宣传片">
+        <source src="assets/promo.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- footer -->
+<footer id="contact">
+  <div class="foot-grid">
+    <h4>感谢观看<br><em>Thanks for Watching</em></h4>
+    <div class="foot-side">
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+      <div class="foot-links">
+        <a href="mailto:15998552601@163.com">15998552601@163.com</a>
+        <a href="niannian-standalone.html" target="_blank" rel="noopener">念念有词 · 互动演示</a>
+        <a href="#home">回到顶部 &#8593;</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-meta">
+    <span>ZHU TING / PORTFOLIO</span>
+    <span>三维建模 · UI 设计 · 平面设计</span>
+    <span>© 2024 ALL RIGHTS RESERVED</span>
+  </div>
+</footer>
+
+<!-- lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="作品大图预览">
+  <button class="close" id="lbClose">关闭 CLOSE</button>
+  <img id="lbImg" src="" alt="作品大图">
+</div>
+
+<script>
+  // marquee: duplicate track for seamless loop
+  const track = document.getElementById('marqueeTrack');
+  track.innerHTML += track.innerHTML;
+
+  // topbar + scroll progress
+  const topbar = document.getElementById('topbar');
+  const progress = document.getElementById('progress');
+  addEventListener('scroll', () => {
+    topbar.classList.toggle('scrolled', scrollY > 40);
+    const h = document.documentElement;
+    progress.style.width = (scrollY / (h.scrollHeight - innerHeight) * 100) + '%';
+  }, {passive:true});
+
+  // scroll reveal with stagger (skill motion preset: standard stagger, back.out)
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        const siblings = [...e.target.parentElement.children].filter(c => c.classList.contains('reveal'));
+        const idx = siblings.indexOf(e.target);
+        e.target.style.transitionDelay = reduceMotion ? '0ms' : Math.min(idx * 60, 300) + 'ms';
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold: .1});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // lightbox
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const openLb = (src) => {
+    lbImg.src = src;
+    lb.classList.add('on');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lbClose').focus();
+  };
+  const closeLb = () => { lb.classList.remove('on'); document.body.style.overflow = ''; };
+  document.querySelectorAll('.tile,.shot').forEach(t => {
+    t.addEventListener('click', () => openLb(t.dataset.full));
+    t.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLb(t.dataset.full); }
+    });
+  });
+  lb.addEventListener('click', (e) => { if (e.target !== lbImg) closeLb(); });
+  document.getElementById('lbClose').addEventListener('click', closeLb);
+  addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLb(); });
+</script>
+</body>
+</html>
