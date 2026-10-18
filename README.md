@@ -10,8 +10,10 @@
 
 | 模块 | 说明 |
 | --- | --- |
-| 首页 / 作品网格 | 破格 12 列网格 + 错落排版，涵盖三维建模、UI 设计、平面设计、动效等 25 项作品 |
+| 首页 / 作品网格 | 破格 12 列网格 + 错落排版，涵盖三维建模、UI 设计、平面设计、动效与游戏设计作品 |
 | 念念有词（焦点项目） | 儿童英语背单词 App 展示专区，含高清截图与产品宣传片（`assets/promo.mp4`，24s 竖版） |
+| 火场逃生演练 VR | Unity + XR Interaction Toolkit 校园消防实训游戏（`assets/firevr-demo.mp4` 完整演示） |
+| 茸果小镇 | Unity 模拟经营游戏，耕种种树修复生态（`assets/rongguo-demo.mp4` 完整演示） |
 | 互动演示 | `niannian-standalone.html` —— 单文件版背单词 App（素材全部 base64 内嵌，双击即可离线运行）；`niannian/` 为模块化原始版本（需 HTTP 环境打开） |
 
 ## 本地预览
