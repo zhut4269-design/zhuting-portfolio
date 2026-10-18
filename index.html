@@ -241,6 +241,19 @@
     opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s;
   }
   .tile:hover .cap,.tile:focus-visible .cap{opacity:1;transform:translateY(0)}
+  .tile video{display:block;width:100%;transition:transform .9s var(--ease-out)}
+  .tile:hover video{transform:scale(1.045)}
+  .play-badge{
+    position:absolute;left:14px;bottom:14px;
+    font-size:11px;letter-spacing:.12em;color:#f0e8d7;
+    background:rgba(35,29,18,.82);padding:8px 16px;border-radius:999px;
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .play-dur{
+    position:absolute;top:14px;right:14px;
+    font-size:10px;letter-spacing:.18em;color:var(--ink);
+    background:rgba(251,248,240,.94);padding:6px 13px;border-radius:999px;
+  }
   .s4{grid-column:span 4}.s5{grid-column:span 5}.s6{grid-column:span 6}
   .s7{grid-column:span 7}.s8{grid-column:span 8}.s12{grid-column:span 12}
   @media (min-width:1000px){
@@ -312,6 +325,7 @@
   }
   .lightbox.on{opacity:1;pointer-events:auto}
   .lightbox img{max-width:100%;max-height:100%;border-radius:14px;box-shadow:0 40px 80px rgba(0,0,0,.5)}
+  .lightbox video{max-width:100%;max-height:100%;border-radius:14px;box-shadow:0 40px 80px rgba(0,0,0,.5);display:none}
   .lightbox .close{
     position:absolute;top:26px;right:34px;color:#fff;font-size:13px;letter-spacing:.18em;
     cursor:pointer;background:none;border:1px solid rgba(255,255,255,.45);
@@ -375,17 +389,17 @@
 <!-- hero -->
 <div class="hero" id="home">
   <div class="hero-text">
-    <div class="hero-kicker">Portfolio · 2023 — 2024 · Vol.01</div>
+    <div class="hero-kicker">Portfolio · 2023 — 2026 · Vol.01</div>
     <h1 class="hero-title">
       Port<em>folio</em>
       <span class="cn">朱婷的作品集</span>
     </h1>
     <p class="hero-sub">
-      作品集收录 2023–2024 个人项目，涵盖三维建模、UI 交互、平面视觉与动态短片。<br>
+      作品集收录 2023–2026 个人与团队项目，涵盖三维建模、UI 交互、平面视觉、动态短片与游戏设计。<br>
       以多维度设计实践，探索视觉、交互与三维的表达可能。
     </p>
     <div class="hero-tags">
-      <span>三维建模</span><span>UI 设计</span><span>平面设计</span><span>动效展示</span>
+      <span>三维建模</span><span>UI 设计</span><span>平面设计</span><span>动效展示</span><span>游戏设计</span>
     </div>
   </div>
   <div class="hero-media">
@@ -407,7 +421,7 @@
 <!-- meta strip -->
 <div class="meta">
   <div><span>Designer</span><strong>朱婷 / Zhu Ting</strong></div>
-  <div><span>Focus</span><strong>三维 · UI · 平面</strong></div>
+  <div><span>Focus</span><strong>三维 · UI · 平面 · 游戏</strong></div>
   <div><span>School</span><strong>大连东软信息学院</strong></div>
   <div><span>Contact</span><strong>15998552601@163.com</strong></div>
 </div>
@@ -418,6 +432,7 @@
     <span>3D Modeling</span><b>&#10035;</b><span>UI Design</span><b>&#10035;</b>
     <span>Graphic Design</span><b>&#10035;</b><span>Motion</span><b>&#10035;</b>
     <span>三维建模</span><b>&#10035;</b><span>交互设计</span><b>&#10035;</b><span>海报与字体</span><b>&#10035;</b>
+    <span>Game Design</span><b>&#10035;</b><span>游戏设计</span><b>&#10035;</b>
   </div>
 </div>
 
@@ -485,7 +500,7 @@
 <section id="works" style="padding-bottom:0">
   <div class="sec-head reveal">
     <h2>精选作品</h2>
-    <div class="en">Selected Works / 2023 — 2024</div>
+    <div class="en">Selected Works / 2023 — 2026</div>
   </div>
 </section>
 
@@ -555,10 +570,68 @@
   </div>
 </section>
 
-<!-- 04 Other -->
-<section class="work-sec" aria-label="其他展示">
+<!-- 04 VR game -->
+<section class="work-sec" aria-label="火场逃生演练 VR">
   <div class="work-head reveal">
     <div class="work-num" aria-hidden="true">04</div>
+    <div class="work-title">
+      <h3>游戏设计 · 火场逃生演练 VR</h3>
+      <div class="en">VR Game · Unity XR / 校园消防实训</div>
+    </div>
+    <p class="work-desc">
+      基于 Unity 与 XR Interaction Toolkit 开发的校园消防 VR 实训游戏，面向中小学生还原「灭火 — 报警 — 逃生 — 考核」完整流程。四关循序渐进：抓取灭火器灭火、射线交互拨打 119、浓烟走廊低姿前行、安全斧破拆逃生；综合关搭载实时评分系统，并需救助被困同学。双人协作完成，负责场景搭建、交互逻辑与物理调试。
+    </p>
+  </div>
+  <div class="bgrid">
+    <div class="tile s7 reveal" data-full="assets/fire-01.jpg" tabindex="0" role="button" aria-label="查看灭火实操大图"><img src="assets/fire-01.jpg" loading="lazy" alt="灭火器灭火实操"><span class="cap">灭火实操</span></div>
+    <div class="tile s5 drop reveal" data-full="assets/fire-02.jpg" tabindex="0" role="button" aria-label="查看教室起火场景大图"><img src="assets/fire-02.jpg" loading="lazy" alt="教室火灾场景"><span class="cap">教室起火</span></div>
+    <div class="tile s4 reveal" data-full="assets/fire-03.jpg" tabindex="0" role="button" aria-label="查看浓烟走廊大图"><img src="assets/fire-03.jpg" loading="lazy" alt="浓烟走廊逃生"><span class="cap">浓烟走廊</span></div>
+    <div class="tile s4 drop-sm reveal" data-full="assets/fire-05.jpg" tabindex="0" role="button" aria-label="查看拨打 119 大图"><img src="assets/fire-05.jpg" loading="lazy" alt="拨打 119 报警"><span class="cap">拨打 119</span></div>
+    <div class="tile s4 reveal" data-full="assets/fire-04.jpg" tabindex="0" role="button" aria-label="查看救助被困同学大图"><img src="assets/fire-04.jpg" loading="lazy" alt="救助被困同学"><span class="cap">救助被困同学</span></div>
+    <div class="tile s8 reveal" data-video="assets/firevr-demo.mp4" tabindex="0" role="button" aria-label="播放火场逃生演练 VR 演示视频">
+      <video autoplay muted loop playsinline preload="metadata" poster="assets/fire-poster.jpg" style="aspect-ratio:640/318">
+        <source src="assets/firevr-preview.mp4" type="video/mp4">
+      </video>
+      <span class="play-badge">&#9654; 演示视频 · 点击有声播放</span>
+      <span class="play-dur">6'48''</span>
+    </div>
+    <div class="tile s4 drop-sm reveal" data-full="assets/fire-06.jpg" tabindex="0" role="button" aria-label="查看综合评分结算大图"><img src="assets/fire-06.jpg" loading="lazy" alt="综合评分结算画面"><span class="cap">综合评分结算</span></div>
+  </div>
+</section>
+
+<!-- 05 simulation game -->
+<section class="work-sec" aria-label="茸果小镇">
+  <div class="work-head reveal">
+    <div class="work-num" aria-hidden="true">05</div>
+    <div class="work-title">
+      <h3>游戏设计 · 茸果小镇</h3>
+      <div class="en">Simulation Game · 模拟经营 / 生态修复</div>
+    </div>
+    <p class="work-desc">
+      一款轻松治愈的模拟经营游戏：在被遗忘的动物小镇里，玩家扮演新来的小动物，带领居民通过耕种、交易和种树，逐步修复因过度砍伐而荒芜的森林生态。基于 Unity 开发，包含种植养成、订单任务、商城交易、背包管理与动态环境系统——树木种得越多，小镇由荒芜逐渐重返绿意。双人协作完成，负责页面绘画、3D 建模、程序设计与地形搭建。
+    </p>
+  </div>
+  <div class="bgrid">
+    <div class="tile s5 reveal" data-full="assets/rg-01.jpg" tabindex="0" role="button" aria-label="查看游戏标题画面大图"><img src="assets/rg-01.jpg" loading="lazy" alt="茸果小镇标题画面"><span class="cap">标题画面</span></div>
+    <div class="tile s7 drop reveal" data-full="assets/rg-02.jpg" tabindex="0" role="button" aria-label="查看农场全景大图"><img src="assets/rg-02.jpg" loading="lazy" alt="农场主场景全景"><span class="cap">农场全景</span></div>
+    <div class="tile s4 reveal" data-full="assets/rg-03.jpg" tabindex="0" role="button" aria-label="查看种植养成大图"><img src="assets/rg-03.jpg" loading="lazy" alt="种植与养成界面"><span class="cap">种植养成</span></div>
+    <div class="tile s4 drop-sm reveal" data-full="assets/rg-05.jpg" tabindex="0" role="button" aria-label="查看作物收获大图"><img src="assets/rg-05.jpg" loading="lazy" alt="作物成熟收获"><span class="cap">作物收获</span></div>
+    <div class="tile s4 reveal" data-full="assets/rg-logo.jpg" tabindex="0" role="button" aria-label="查看 IP 标识大图"><img src="assets/rg-logo.jpg" loading="lazy" alt="茸果小镇 IP 标识"><span class="cap">IP 标识</span></div>
+    <div class="tile s8 reveal" data-video="assets/rongguo-demo.mp4" tabindex="0" role="button" aria-label="播放茸果小镇演示视频">
+      <video autoplay muted loop playsinline preload="metadata" poster="assets/rg-poster.jpg" style="aspect-ratio:16/9">
+        <source src="assets/rongguo-preview.mp4" type="video/mp4">
+      </video>
+      <span class="play-badge">&#9654; 演示视频 · 点击有声播放</span>
+      <span class="play-dur">2'14''</span>
+    </div>
+    <div class="tile s4 drop-sm reveal" data-full="assets/rg-04.jpg" tabindex="0" role="button" aria-label="查看田园场景大图"><img src="assets/rg-04.jpg" loading="lazy" alt="田园耕作场景"><span class="cap">田园场景</span></div>
+  </div>
+</section>
+
+<!-- 06 Other -->
+<section class="work-sec" aria-label="其他展示">
+  <div class="work-head reveal">
+    <div class="work-num" aria-hidden="true">06</div>
     <div class="work-title">
       <h3>其他展示</h3>
       <div class="en">Other Displays · 动效 / 探索</div>
@@ -620,7 +693,7 @@
   </div>
   <div class="foot-meta">
     <span>ZHU TING / PORTFOLIO</span>
-    <span>三维建模 · UI 设计 · 平面设计</span>
+    <span>三维建模 · UI 设计 · 平面设计 · 游戏设计</span>
     <span>© 2024 ALL RIGHTS RESERVED</span>
   </div>
 </footer>
@@ -629,6 +702,7 @@
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="作品大图预览">
   <button class="close" id="lbClose">关闭 CLOSE</button>
   <img id="lbImg" src="" alt="作品大图">
+  <video id="lbVideo" controls playsinline preload="none"></video>
 </div>
 
 <script>
@@ -660,23 +734,37 @@
   }, {threshold: .1});
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  // lightbox
+  // lightbox (image + video)
   const lb = document.getElementById('lightbox');
   const lbImg = document.getElementById('lbImg');
-  const openLb = (src) => {
-    lbImg.src = src;
+  const lbVideo = document.getElementById('lbVideo');
+  const openLb = (src, video) => {
+    if (video) {
+      lbImg.style.display = 'none';
+      lbVideo.style.display = 'block';
+      lbVideo.src = video;
+      lbVideo.play().catch(() => {});
+    } else {
+      lbVideo.pause(); lbVideo.removeAttribute('src'); lbVideo.load(); lbVideo.style.display = 'none';
+      lbImg.style.display = 'block';
+      lbImg.src = src;
+    }
     lb.classList.add('on');
     document.body.style.overflow = 'hidden';
     document.getElementById('lbClose').focus();
   };
-  const closeLb = () => { lb.classList.remove('on'); document.body.style.overflow = ''; };
+  const closeLb = () => {
+    lb.classList.remove('on');
+    document.body.style.overflow = '';
+    lbVideo.pause(); lbVideo.removeAttribute('src'); lbVideo.load();
+  };
   document.querySelectorAll('.tile,.shot').forEach(t => {
-    t.addEventListener('click', () => openLb(t.dataset.full));
+    t.addEventListener('click', () => openLb(t.dataset.full, t.dataset.video));
     t.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLb(t.dataset.full); }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLb(t.dataset.full, t.dataset.video); }
     });
   });
-  lb.addEventListener('click', (e) => { if (e.target !== lbImg) closeLb(); });
+  lb.addEventListener('click', (e) => { if (e.target !== lbImg && e.target !== lbVideo) closeLb(); });
   document.getElementById('lbClose').addEventListener('click', closeLb);
   addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLb(); });
 </script>
